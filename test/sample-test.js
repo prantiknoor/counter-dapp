@@ -1,19 +1,19 @@
 const { expect } = require("chai");
 const { ethers } = require("hardhat");
 
-describe("Greeter", function () {
-  it("Should return the new greeting once it's changed", async function () {
-    const Greeter = await ethers.getContractFactory("Greeter");
-    const greeter = await Greeter.deploy("Hello, world!");
-    await greeter.deployed();
+describe("Counter", function () {
+  it("Should increase the counter by 1 after calling increment", async function () {
+    const Counter = await ethers.getContractFactory("Counter");
+    const counter = await Counter.deploy();
+    await counter.deployed();
 
-    expect(await greeter.greet()).to.equal("Hello, world!");
+    expect(await counter.count()).to.equal(0);
 
-    const setGreetingTx = await greeter.setGreeting("Hola, mundo!");
+    const setGreetingTx = await counter.incrementCounter();
 
     // wait until the transaction is mined
     await setGreetingTx.wait();
 
-    expect(await greeter.greet()).to.equal("Hola, mundo!");
+    expect(await counter.count()).to.equal(1);
   });
 });
